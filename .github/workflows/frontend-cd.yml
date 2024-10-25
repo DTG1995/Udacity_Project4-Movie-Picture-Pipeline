@@ -15,10 +15,10 @@ jobs:
     - name: Checkout the Repository
       uses: actions/checkout@v4
 
-    - name: Use Node.js 18
-      uses: actions/setup-node@v3
+    - name: Use Node.js 20
+      uses: actions/setup-node@v4
       with:
-        node-version: 18
+        node-version: 20
         cache: 'npm'
         cache-dependency-path: starter/frontend/package-lock.json
 
@@ -36,10 +36,10 @@ jobs:
     - name: Checkout the Repository
       uses: actions/checkout@v4
 
-    - name: Use Node.js 18
-      uses: actions/setup-node@v3
+    - name: Use Node.js 20
+      uses: actions/setup-node@v4
       with:
-        node-version: 18
+        node-version: 20
         cache: 'npm'
         cache-dependency-path: starter/frontend/package-lock.json
         
@@ -60,10 +60,10 @@ jobs:
     - name: Checkout the Repository
       uses: actions/checkout@v4
     
-    - name: Use Node.js 18
-      uses: actions/setup-node@v3
+    - name: Use Node.js 20
+      uses: actions/setup-node@v4
       with:
-        node-version: 18
+        node-version: 20
         cache: 'npm'
         cache-dependency-path: starter/frontend/package-lock.json
 
@@ -88,8 +88,8 @@ jobs:
         IMAGE_TAG: latest
         REPO_NAME: frontend
       run: |
-        docker build --build-arg=REACT_APP_MOVIE_API_URL=http://localhost:5000 --tag 453993133564.dkr.ecr.us-east-1.amazonaws.com/$REPO_NAME:$IMAGE_TAG .
-        docker push 453993133564.dkr.ecr.us-east-1.amazonaws.com/$REPO_NAME:$IMAGE_TAG
+        docker build --build-arg=REACT_APP_MOVIE_API_URL=$BACKEND_URL --tag $REGISTRY/$REPO_NAME:$IMAGE_TAG .
+        docker push $REGISTRY/$REPO_NAME:$IMAGE_TAG
 
     - name: Configure Kubeconfig
       run:
@@ -102,5 +102,5 @@ jobs:
         IMAGE_TAG: latest
         REPO_NAME: frontend
       run: |
-          kustomize edit set image frontend=453993133564.dkr.ecr.us-east-1.amazonaws.com/$REPO_NAME:$IMAGE_TAG
+          kustomize edit set image frontend=$REGISTRY/$REPO_NAME:$IMAGE_TAG
           kustomize build | kubectl apply -f -
