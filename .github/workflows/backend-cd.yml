@@ -6,6 +6,11 @@ name: Backend CD Workflow
     branches:
       - main
 
+env:
+  REGISTRY_BACKEND: ${{ vars.REGISTRY_BACKEND }}
+  IMAGE_TAG: ${{ vars.INAGE_TAG }}
+  REPO_NAME: ${{ vars.REPO_NAME }}
+
 jobs:
   Linting:
     runs-on: ubuntu-latest
