@@ -85,11 +85,11 @@ jobs:
           docker build --tag $REGISTRY_BACKEND/$REPO_BACKEND_NAME:$IMAGE_TAG .
           docker push $REGISTRY_BACKEND/$REPO_BACKEND_NAME:$IMAGE_TAG
       - name: Update Kubeconfig
-        run: aws eks update-kubeconfig --name udacity-project4 --region us-east-1
+        run: aws eks update-kubeconfig --name cluster --region us-east-1
 
       - name: Deploy Image in Amazon ECR to Amazon EKS
         working-directory: starter/backend/k8s
         run: |
-          aws eks update-kubeconfig --name udacity-project4 --region us-east-1
+          aws eks update-kubeconfig --name cluster --region us-east-1
           kustomize edit set image backend=$REGISTRY_BACKEND/$REPO_BACKEND_NAME:$IMAGE_TAG
           kustomize build | kubectl apply -f -
